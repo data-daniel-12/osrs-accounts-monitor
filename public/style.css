@@ -1,0 +1,1033 @@
+/* ========================================================
+   LuckyCharmGold (LCG) Theme • OSRS Account Availability
+   Inspired by: https://luckycharmgold.com/
+   Palette: Deep Black (#0B0B0B), Amber Gold (#FFCF4A, #FFBB01),
+   Clover Green (#20D420), Charcoal Slate (#141414, #1E1E1E),
+   Typography: 'Freeman' (Headings) & 'Epilogue' (Body/UI)
+   ======================================================== */
+
+:root {
+  --lcg-bg: #0B0B0B;
+  --lcg-bg-card: #121212;
+  --lcg-bg-card-hover: #191919;
+  --lcg-bg-card-gradient: linear-gradient(282.8deg, rgba(31, 31, 31, 0.45) 0%, rgba(42, 42, 42, 0.45) 100%);
+  --lcg-bg-card-hover-gradient: linear-gradient(282.8deg, rgba(31, 31, 31, 0.85) 0%, rgba(42, 42, 42, 0.85) 100%);
+
+  --lcg-border: rgba(255, 255, 255, 0.08);
+  --lcg-border-subtle: rgba(255, 255, 255, 0.05);
+
+  --lcg-gold-start: #FFCF4A;
+  --lcg-gold-end: #FFBB01;
+  --lcg-gold-gradient: linear-gradient(96.59deg, #FFCF4A 0.29%, #FFBB01 100.29%);
+  --lcg-gold-glow: rgba(255, 187, 1, 0.35);
+
+  --lcg-text: #F1F1F1;
+  --lcg-text-muted: #8E8E8E;
+  --lcg-text-dim: #606060;
+
+  --lcg-green: #20D420;
+  --lcg-green-glow: rgba(32, 212, 32, 0.3);
+  --lcg-red: #FF4D4D;
+
+  --font-heading: 'Freeman', sans-serif;
+  --font-body: 'Epilogue', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body.lcg-theme {
+  background-color: var(--lcg-bg);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 207, 74, 0.08) 0%, transparent 55%),
+    radial-gradient(circle at 90% 20%, rgba(32, 212, 32, 0.04) 0%, transparent 40%);
+  color: var(--lcg-text);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================================
+   Top Announcement Bar (LuckyCharm Style)
+   ======================================================== */
+.top-announcement {
+  background: #141414;
+  border-bottom: 1px solid var(--lcg-border-subtle);
+  padding: 6px 16px;
+  text-align: center;
+  font-size: 11.5px;
+}
+
+.announcement-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--lcg-text-muted);
+}
+
+.announcement-badge {
+  background: var(--lcg-gold-gradient);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================================
+   LuckyCharmGold Navbar
+   ======================================================== */
+.lcg-navbar {
+  background: rgba(11, 11, 11, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--lcg-border);
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.lcg-nav-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lcg-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.lcg-navbar-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7));
+  transition: transform 0.2s ease;
+}
+
+.lcg-navbar-logo:hover {
+  transform: scale(1.03);
+}
+
+.lcg-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.lcg-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  letter-spacing: 0.5px;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.text-gold {
+  background: var(--lcg-gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--lcg-gold-start);
+}
+
+.badge-accounts {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  border: 1px solid var(--lcg-gold-start);
+  color: var(--lcg-gold-start);
+  padding: 1px 7px;
+  border-radius: 44px;
+}
+
+.lcg-sub {
+  font-size: 11px;
+  color: var(--lcg-text-muted);
+}
+
+.lcg-header-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ========================================================
+   Live Status Pill (LuckyCharm Style)
+   ======================================================== */
+.lcg-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(32, 212, 32, 0.12);
+  border: 1px solid rgba(32, 212, 32, 0.35);
+  color: var(--lcg-green);
+  padding: 6px 14px;
+  border-radius: 44px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--lcg-green);
+  box-shadow: 0 0 8px var(--lcg-green);
+  animation: lcgPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes lcgPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 12px var(--lcg-green); }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+/* ========================================================
+   Icon Only Button (Refresh)
+   ======================================================== */
+.lcg-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  color: var(--lcg-text);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.lcg-icon-btn:hover {
+  background: #252525;
+  border-color: var(--lcg-gold-start);
+  color: var(--lcg-gold-start);
+  box-shadow: 0 0 12px var(--lcg-gold-glow);
+}
+
+.btn-spin-icon {
+  display: inline-block;
+  line-height: 1;
+}
+
+.lcg-icon-btn.spinning .btn-spin-icon {
+  animation: lcgSpin 0.7s linear infinite;
+}
+
+@keyframes lcgSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================================
+   Language Switcher (Select Dropdown with Flags)
+   ======================================================== */
+.lcg-lang-select-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.lcg-lang-select {
+  appearance: none;
+  background: #181818 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23FFCF4A' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border: 1px solid var(--lcg-border);
+  color: #FFF;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 7px 32px 7px 14px;
+  border-radius: 44px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.lcg-lang-select:hover, .lcg-lang-select:focus {
+  border-color: var(--lcg-gold-start);
+  box-shadow: 0 0 12px var(--lcg-gold-glow);
+}
+
+.lcg-lang-select option {
+  background: #141414;
+  color: #FFF;
+  font-size: 13px;
+  padding: 8px;
+}
+
+/* ========================================================
+   Signature LuckyCharmGold Buttons
+   ======================================================== */
+.lcg-gold-btn {
+  background: var(--lcg-gold-gradient);
+  color: #000;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  border: 1px solid var(--lcg-gold-start);
+  border-radius: 44px;
+  padding: 8px 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px var(--lcg-gold-glow);
+  text-decoration: none;
+}
+
+.lcg-gold-btn:hover {
+  background: linear-gradient(96.59deg, #FFE078 0.29%, #FFCF4A 100.29%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 187, 1, 0.5);
+}
+
+.lcg-gold-btn:active {
+  transform: translateY(0);
+}
+
+.lcg-pill-btn {
+  background: #1C1C1C;
+  border: 1px solid var(--lcg-border);
+  color: var(--lcg-text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 44px;
+  padding: 7px 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.lcg-pill-btn:hover {
+  background: #252525;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFF;
+}
+
+/* ========================================================
+   Main Container
+   ======================================================== */
+.lcg-wrapper {
+  max-width: 1480px;
+  margin: 24px auto 60px auto;
+  padding: 0 20px;
+}
+
+/* ========================================================
+   Section Headings
+   ======================================================== */
+.lcg-section-heading {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  color: #FFF;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.lcg-section-sub {
+  font-size: 13px;
+  color: var(--lcg-text-muted);
+}
+
+/* ========================================================
+   Hero & Metrics Row (LuckyCharm Gold Cards)
+   ======================================================== */
+.lcg-hero-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-metrics-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lcg-metric-card {
+  background: #141414;
+  background-image: var(--lcg-bg-card-gradient);
+  border: 1px solid var(--lcg-border);
+  border-radius: 16px;
+  padding: 14px 20px;
+  min-width: 175px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.lcg-metric-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 207, 74, 0.3);
+  background-image: var(--lcg-bg-card-hover-gradient);
+}
+
+.metric-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.metric-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--lcg-text-muted);
+}
+
+.metric-ico {
+  font-size: 14px;
+}
+
+.metric-num {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.text-green {
+  color: var(--lcg-green);
+}
+
+.metric-foot {
+  font-size: 10.5px;
+  color: var(--lcg-text-dim);
+}
+
+/* ========================================================
+   Notice Banner (LuckyCharm Style)
+   ======================================================== */
+.lcg-notice-card {
+  background: #141414;
+  background-image: linear-gradient(90deg, rgba(255, 207, 74, 0.08) 0%, rgba(20, 20, 20, 0.8) 100%);
+  border: 1px solid rgba(255, 207, 74, 0.25);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #D8D8D8;
+}
+
+.notice-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ========================================================
+   Alert Banner (Stock Update Flash)
+   ======================================================== */
+.lcg-alert-banner {
+  background: linear-gradient(90deg, rgba(255, 207, 74, 0.18) 0%, rgba(255, 187, 1, 0.08) 100%);
+  border: 1px solid var(--lcg-gold-start);
+  color: var(--lcg-gold-start);
+  padding: 10px 18px;
+  border-radius: 44px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 16px var(--lcg-gold-glow);
+}
+
+.alert-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--lcg-gold-start);
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.alert-close:hover {
+  opacity: 1;
+}
+
+/* ========================================================
+   Filters Bar (Pill Inputs & Dropdowns)
+   ======================================================== */
+.lcg-filter-card {
+  background: #141414;
+  border: 1px solid var(--lcg-border);
+  padding: 14px 18px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.filter-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lcg-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.lcg-input-search {
+  width: 100%;
+  padding: 11px 40px 11px 42px;
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  border-radius: 44px;
+  color: #FFF;
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.lcg-input-search:focus {
+  border-color: var(--lcg-gold-start);
+  box-shadow: 0 0 14px var(--lcg-gold-glow);
+  background: #1D1D1D;
+}
+
+.lcg-search-clear {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--lcg-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filter-right-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Pill Toggle Switch */
+.lcg-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  padding: 8px 16px;
+  border-radius: 44px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: border-color 0.2s;
+}
+
+.lcg-toggle-pill input {
+  display: none;
+}
+
+.toggle-track {
+  width: 30px;
+  height: 16px;
+  background: #2A2A2A;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.25s;
+}
+
+.toggle-track::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FFF;
+  top: 2px;
+  left: 2px;
+  transition: 0.25s;
+}
+
+.lcg-toggle-pill input:checked + .toggle-track {
+  background: var(--lcg-gold-start);
+}
+
+.lcg-toggle-pill input:checked + .toggle-track::before {
+  transform: translateX(14px);
+  background: #000;
+}
+
+/* Select Pills */
+.lcg-select-pill {
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  color: var(--lcg-text);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 44px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.lcg-select-pill:focus {
+  border-color: var(--lcg-gold-start);
+}
+
+/* ========================================================
+   LuckyCharm Table
+   ======================================================== */
+.lcg-table-wrapper {
+  background: #111111;
+  border: 1px solid var(--lcg-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+}
+
+.lcg-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.lcg-table th {
+  background-color: #161616;
+  color: var(--lcg-gold-start);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--lcg-border);
+  white-space: nowrap;
+}
+
+.lcg-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.lcg-table tbody tr {
+  background-color: #111111;
+  transition: background-color 0.15s ease;
+}
+
+.lcg-table tbody tr:nth-child(even) {
+  background-color: #131313;
+}
+
+.lcg-table tbody tr:hover {
+  background-color: #1A1A1A !important;
+}
+
+.lcg-table tbody tr.row-in-stock {
+  border-left: 3px solid var(--lcg-green);
+}
+
+/* Sheet Row & ID Badges */
+.badge-sheet-row {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--lcg-gold-start);
+  background: rgba(255, 207, 74, 0.1);
+  border: 1px solid rgba(255, 207, 74, 0.25);
+  padding: 3px 8px;
+  border-radius: 44px;
+  white-space: nowrap;
+}
+
+.badge-id {
+  font-family: var(--font-mono);
+  color: var(--lcg-text-muted);
+  font-size: 11.5px;
+}
+
+/* Category Text */
+.cat-text {
+  font-weight: 700;
+  color: #FFF;
+  font-family: var(--font-body);
+}
+
+/* Build Description */
+.build-desc {
+  font-size: 13px;
+  color: #D8D8D8;
+  line-height: 1.45;
+  max-width: 600px;
+}
+
+/* Price & Supplies */
+.price-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--lcg-gold-start);
+}
+
+.supplies-val {
+  color: var(--lcg-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Stock Indicator Pill */
+.stock-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 44px;
+  min-width: 38px;
+  text-align: center;
+}
+
+.stock-pill.in-stock {
+  background: rgba(32, 212, 32, 0.15);
+  color: var(--lcg-green);
+  border: 1px solid var(--lcg-green);
+  box-shadow: 0 0 10px var(--lcg-green-glow);
+}
+
+.stock-pill.out-stock {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--lcg-text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Action: Signature LuckyCharmGold Button in Table */
+.btn-order-copy {
+  background: var(--lcg-gold-gradient);
+  color: #000;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 11.5px;
+  border: 1px solid var(--lcg-gold-start);
+  padding: 7px 15px;
+  border-radius: 44px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px var(--lcg-gold-glow);
+}
+
+.btn-order-copy:hover {
+  background: linear-gradient(96.59deg, #FFE078 0.29%, #FFCF4A 100.29%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 187, 1, 0.45);
+}
+
+.lcg-loading-row,
+.lcg-empty-row {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--lcg-text-muted);
+}
+
+.lcg-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 207, 74, 0.3);
+  border-top-color: var(--lcg-gold-start);
+  border-radius: 50%;
+  animation: lcgSpin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* ========================================================
+   Bottom Section: Webhook & API Integration
+   ======================================================== */
+.lcg-bottom-integrations {
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--lcg-border-subtle);
+}
+
+.bottom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.bottom-title {
+  font-family: var(--font-heading);
+  font-size: 21px;
+  color: #FFF;
+  margin-bottom: 4px;
+}
+
+.bottom-desc {
+  font-size: 13px;
+  color: var(--lcg-text-muted);
+}
+
+.bottom-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bottom-tab-btn {
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  color: var(--lcg-text-muted);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 44px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bottom-tab-btn:hover {
+  background: #222222;
+  color: #FFF;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.bottom-tab-btn.active {
+  background: var(--lcg-gold-gradient);
+  color: #000;
+  border-color: var(--lcg-gold-start);
+  box-shadow: 0 4px 14px var(--lcg-gold-glow);
+}
+
+.bottom-tab-content {
+  animation: lcgFadeIn 0.25s ease-out;
+}
+
+@keyframes lcgFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards & Settings */
+.lcg-card {
+  background: #141414;
+  background-image: var(--lcg-bg-card-gradient);
+  border: 1px solid var(--lcg-border);
+  padding: 24px 28px;
+  border-radius: 16px;
+}
+
+.lcg-card-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  color: var(--lcg-gold-start);
+  margin-bottom: 8px;
+}
+
+.lcg-card-desc {
+  font-size: 13px;
+  color: var(--lcg-text-muted);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+.lcg-form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .lcg-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lcg-form-group label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #FFF;
+}
+
+.lcg-input {
+  width: 100%;
+  padding: 10px 18px;
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  border-radius: 44px;
+  color: #FFF;
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.lcg-input:focus {
+  border-color: var(--lcg-gold-start);
+  box-shadow: 0 0 12px var(--lcg-gold-glow);
+}
+
+.lcg-help-text {
+  display: block;
+  font-size: 11px;
+  color: var(--lcg-text-dim);
+  margin-top: 5px;
+  padding-left: 8px;
+}
+
+.lcg-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.lcg-feedback-msg {
+  margin-top: 14px;
+  font-size: 12.5px;
+  padding: 8px 16px;
+  border-radius: 44px;
+}
+
+.lcg-feedback-msg.success {
+  background: rgba(32, 212, 32, 0.15);
+  color: var(--lcg-green);
+  border: 1px solid rgba(32, 212, 32, 0.35);
+}
+
+.lcg-feedback-msg.error {
+  background: rgba(255, 77, 77, 0.15);
+  color: var(--lcg-red);
+  border: 1px solid rgba(255, 77, 77, 0.35);
+}
+
+/* Endpoint Box */
+.lcg-endpoint-box {
+  background: #181818;
+  border: 1px solid var(--lcg-border);
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.endpoint-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.method-tag {
+  background: rgba(32, 212, 32, 0.2);
+  color: var(--lcg-green);
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.endpoint-path {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--lcg-gold-start);
+}
+
+.endpoint-desc {
+  font-size: 12.5px;
+  color: var(--lcg-text-muted);
+  margin: 6px 0;
+}
+
+.lcg-code-block {
+  background: #0E0E0E;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #ADB5BD;
+  overflow-x: auto;
+}
+
+/* ========================================================
+   Toast Notification
+   ======================================================== */
+.lcg-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #181818;
+  border: 1px solid var(--lcg-gold-start);
+  color: #FFF;
+  padding: 12px 22px;
+  border-radius: 44px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px var(--lcg-gold-glow);
+  z-index: 1000;
+  animation: lcgToastIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes lcgToastIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}

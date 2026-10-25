@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuckyCharm Accounts • OSRS Live Availability Monitor</title>
+  <meta name="description" content="LuckyCharmGold OSRS Account Availability and Live Webhook Monitor" />
+  <link rel="icon" type="image/webp" href="/logo.webp" />
+
+  <!-- LuckyCharmGold Official Fonts: Freeman & Epilogue -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Freeman&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="lcg-theme">
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement">
+    <div class="announcement-content">
+      <span class="announcement-badge">OSRS LIVE</span>
+      <span data-i18n="announcementText">Real-time live synchronization with Google Sheets • Automatic stock update feeds</span>
+    </div>
+  </div>
+
+  <!-- LuckyCharmGold Navbar (Clean Header) -->
+  <header class="lcg-navbar">
+    <div class="lcg-nav-container">
+      <div class="lcg-brand">
+        <img src="/logo.webp" alt="LuckyCharmGold" class="lcg-navbar-logo" />
+        <div class="lcg-brand-text">
+          <div class="lcg-title">LUCKY<span class="text-gold">CHARM</span> <span class="badge-accounts">ACCOUNTS</span></div>
+          <div class="lcg-sub" data-i18n="siteSub">Account Availability Monitor • Google Sheets Live Sync</div>
+        </div>
+      </div>
+
+      <div class="lcg-header-tools">
+        <!-- Live Status Indicator -->
+        <div class="lcg-live-status" id="livePill" title="Connection status">
+          <span class="live-pulse"></span>
+          <span id="liveText">Live (0s)</span>
+        </div>
+
+        <!-- Refresh Button (Icon Only) -->
+        <button id="btnSyncNow" class="lcg-icon-btn" title="Refresh Live Data" aria-label="Refresh">
+          <span class="btn-spin-icon">🔄</span>
+        </button>
+
+        <!-- Language Switcher: Dropdown Select with Flags (Default EN) -->
+        <div class="lcg-lang-select-wrapper">
+          <select id="langSelect" class="lcg-lang-select" aria-label="Select Language">
+            <option value="en" selected>🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="lcg-wrapper">
+
+    <!-- Hero / Stats Summary -->
+    <div class="lcg-hero-stats">
+      <div class="hero-left">
+        <h1 class="lcg-section-heading" data-i18n="pageTitle">Account Availability</h1>
+        <p class="lcg-section-sub" data-i18n="heroDescription">
+          Live inquiry of available accounts ready for fast purchase and immediate delivery in Old School RuneScape.
+        </p>
+      </div>
+
+      <div class="hero-metrics-row">
+        <div class="lcg-metric-card">
+          <div class="metric-top">
+            <span class="metric-lbl" data-i18n="accountsInStock">Accounts in stock</span>
+            <span class="metric-ico">📦</span>
+          </div>
+          <div class="metric-num text-gold" id="metaInStock">--</div>
+          <div class="metric-foot"><span id="metaInStockTotal">--</span> <span data-i18n="catalogedText">cataloged</span></div>
+        </div>
+
+        <div class="lcg-metric-card">
+          <div class="metric-top">
+            <span class="metric-lbl" data-i18n="totalUnits">Available Units</span>
+            <span class="metric-ico">🔥</span>
+          </div>
+          <div class="metric-num text-green" id="metaTotalUnits">--</div>
+          <div class="metric-foot" data-i18n="sumStockLabel">Total accumulated stock</div>
+        </div>
+
+        <div class="lcg-metric-card">
+          <div class="metric-top">
+            <span class="metric-lbl" data-i18n="lastSync">Last sync</span>
+            <span class="metric-ico">⏱️</span>
+          </div>
+          <div class="metric-num font-mono" id="metaLastSync">--</div>
+          <div class="metric-foot">Google Sheets GViz</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Notice Banner -->
+    <div class="lcg-notice-card">
+      <div class="notice-icon">🍀</div>
+      <div class="notice-body" id="dataNoticeBody" data-i18n="dataNotice">
+        <strong>Data notice:</strong> Stats, supplies, and pricing columns are static. The <strong>Available</strong> column updates periodically from the shared Google Spreadsheet. Click <strong>Copy Order</strong> on any row to copy the preformatted text ready to negotiate on Discord.
+      </div>
+    </div>
+
+    <!-- Live stock alert banner (hidden until change occurs) -->
+    <div id="liveStockBanner" class="lcg-alert-banner" style="display: none;">
+      <span class="alert-ico">🔥</span>
+      <span id="liveAlertText" data-i18n="newStockAlert">New stock detected!</span>
+      <button class="alert-close" onclick="document.getElementById('liveStockBanner').style.display='none'">✕</button>
+    </div>
+
+    <!-- Filter Controls Bar -->
+    <div class="lcg-filter-card">
+      <div class="filter-top-row">
+        <div class="lcg-search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search by build, stats (e.g. 99 strength, 94 magic, barrows gloves), row or ID..."
+            class="lcg-input-search"
+            data-i18n-placeholder="searchPlaceholder"
+          />
+          <button id="btnClearSearch" class="lcg-search-clear" style="display: none;">✕</button>
+        </div>
+
+        <div class="filter-right-options">
+          <label class="lcg-toggle-pill" title="Show accounts with stock only">
+            <input type="checkbox" id="toggleOnlyStock" checked />
+            <span class="toggle-track"></span>
+            <span class="toggle-text"><span data-i18n="inStockOnly">In stock only</span> (<strong id="countStockBadge">0</strong>)</span>
+          </label>
+
+          <select id="selectCategory" class="lcg-select-pill">
+            <option value="All" data-i18n="allCategories">All categories</option>
+          </select>
+
+          <select id="selectSort" class="lcg-select-pill">
+            <option value="row_asc" data-i18n="sortRowAsc">Sort by: Sheet Row (default)</option>
+            <option value="stock_desc" data-i18n="sortStockDesc">Sort by: Highest Stock</option>
+            <option value="price_desc" data-i18n="sortPriceDesc">Sort by: Highest Price</option>
+            <option value="price_asc" data-i18n="sortPriceAsc">Sort by: Lowest Price</option>
+          </select>
+
+          <a href="/api/export/catalog.csv" class="lcg-pill-btn" title="Download static accounts catalog in CSV">
+            📥 CSV
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accounts Table (Main Catalog) -->
+    <div class="lcg-table-wrapper">
+      <table class="lcg-table">
+        <thead>
+          <tr>
+            <th style="width: 75px; text-align: center;" data-i18n="thRow">Row</th>
+            <th style="width: 60px; text-align: center;" data-i18n="thId">ID</th>
+            <th style="width: 135px;" data-i18n="thCategory">Category</th>
+            <th data-i18n="thBuild">Build / Stats / Quests</th>
+            <th style="width: 130px;" data-i18n="thSupplies">Max Supplies</th>
+            <th style="width: 105px;" data-i18n="thPrice">Price</th>
+            <th style="width: 115px; text-align: center;" data-i18n="thAvailable">Available</th>
+            <th style="width: 155px; text-align: center;" data-i18n="thAction">Action</th>
+          </tr>
+        </thead>
+        <tbody id="accountsTableBody">
+          <tr>
+            <td colspan="8" class="lcg-loading-row">
+              <span class="lcg-spinner"></span> <span data-i18n="loadingAccounts">Loading accounts from Google Sheets...</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ========================================================
+         BOTTOM SECTION: Webhook & Developer API Integration
+         ======================================================== -->
+    <section class="lcg-bottom-integrations" id="bottomIntegrations">
+      
+      <!-- Section Header -->
+      <div class="bottom-header">
+        <div>
+          <h2 class="bottom-title" data-i18n="settingsTitle">⚙️ Webhook & API Integration</h2>
+          <p class="bottom-desc" data-i18n="settingsDesc">
+            Simulate webhooks for real-time Discord notifications or integrate live availability into your custom backend.
+          </p>
+        </div>
+
+        <div class="bottom-tabs">
+          <button class="bottom-tab-btn active" data-bottom-tab="tab-discord-webhook" data-i18n="webhookTitle">
+            🔔 Discord Webhook
+          </button>
+          <button class="bottom-tab-btn" data-bottom-tab="tab-api-endpoints" data-i18n="apiTitle">
+            🔌 API Endpoints
+          </button>
+          <button class="bottom-tab-btn" data-bottom-tab="tab-stock-history">
+            <span data-i18n="tabHistory">📜 Change History</span> (<span id="changesCount">0</span>)
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Tab 1: Discord Webhook -->
+      <div id="tab-discord-webhook" class="bottom-tab-content active">
+        <div class="lcg-card">
+          <h3 class="lcg-card-title" data-i18n="webhookTitle">🔔 Discord Webhook Notifications</h3>
+          <p class="lcg-card-desc" data-i18n="webhookDesc">
+            Whenever the monitor detects that the <strong>Available</strong> column changes (e.g. new accounts added or sold out), an automated message is dispatched to your configured Discord channel.
+          </p>
+
+          <div class="lcg-form-grid">
+            <div class="lcg-form-group">
+              <label for="inputDiscordUrl" data-i18n="discordUrlLabel">Discord Webhook URL</label>
+              <input 
+                type="url" 
+                id="inputDiscordUrl" 
+                placeholder="https://discord.com/api/webhooks/..." 
+                class="lcg-input"
+              />
+              <span class="lcg-help-text" data-i18n="discordUrlHelp">Get this URL from your Discord server channel integrations settings.</span>
+            </div>
+
+            <div class="lcg-form-group">
+              <label for="inputPollInterval" data-i18n="pollIntervalLabel">Polling Interval (seconds)</label>
+              <input 
+                type="number" 
+                id="inputPollInterval" 
+                value="15" 
+                min="5" 
+                max="300" 
+                class="lcg-input"
+              />
+              <span class="lcg-help-text" data-i18n="pollIntervalHelp">How often Google Sheets is queried (recommended: 10 to 20 seconds).</span>
+            </div>
+          </div>
+
+          <div class="lcg-btn-row">
+            <button id="btnSaveWebhookConfig" class="lcg-gold-btn" data-i18n="btnSaveConfig">💾 Save Configuration</button>
+            <button id="btnTestDiscordWebhook" class="lcg-pill-btn" data-i18n="btnTestWebhook">🧪 Test Discord Webhook</button>
+          </div>
+          <div id="webhookTestMsg" class="lcg-feedback-msg" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Tab 2: API Endpoints -->
+      <div id="tab-api-endpoints" class="bottom-tab-content" style="display: none;">
+        <div class="lcg-card">
+          <h3 class="lcg-card-title" data-i18n="apiTitle">🔌 API Endpoints for your Backend</h3>
+          <p class="lcg-card-desc" data-i18n="apiDesc">
+            You can make <code>GET</code> or <code>POST</code> requests from your backend in Python, Node.js, PHP, or any programming language:
+          </p>
+
+          <div class="lcg-endpoint-box">
+            <div class="endpoint-top">
+              <span class="method-tag">GET</span>
+              <code class="endpoint-path">/api/availability?format=simple&only_in_stock=true</code>
+            </div>
+            <p class="endpoint-desc" data-i18n="apiSimpleDesc">Returns directly the lightweight map with sheet row numbers and their available quantity:</p>
+            <pre class="lcg-code-block">{
+  "7": 1,
+  "8": 8,
+  "9": 10,
+  "10": 11,
+  "18": 6
+}</pre>
+          </div>
+
+          <div class="lcg-endpoint-box">
+            <div class="endpoint-top">
+              <span class="method-tag">GET</span>
+              <code class="endpoint-path">/api/availability?format=pairs</code>
+            </div>
+            <p class="endpoint-desc" data-i18n="apiPairsDesc">Returns an array of pairs <code>[[row, quantity], ...]</code>:</p>
+            <pre class="lcg-code-block">[[7, 1], [8, 8], [9, 10], [10, 11]]</pre>
+          </div>
+
+          <div class="lcg-endpoint-box">
+            <div class="endpoint-top">
+              <span class="method-tag">GET</span>
+              <code class="endpoint-path">/api/accounts</code>
+            </div>
+            <p class="endpoint-desc" data-i18n="apiAccountsDesc">Returns the complete accounts database with static columns (build, supplies, price) and live stock.</p>
+          </div>
+
+          <div class="lcg-endpoint-box">
+            <div class="endpoint-top">
+              <span class="method-tag">GET</span>
+              <code class="endpoint-path">/api/stream</code>
+            </div>
+            <p class="endpoint-desc" data-i18n="apiSseDesc">Server-Sent Events (SSE) connection to receive real-time push events whenever stock changes without polling.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Tab 3: Stock History -->
+      <div id="tab-stock-history" class="bottom-tab-content" style="display: none;">
+        <div class="lcg-card">
+          <h3 class="lcg-card-title" data-i18n="historyTitle">📜 Stock Change History</h3>
+          <p class="lcg-card-desc" data-i18n="historyDesc">Real-time audit log of every stock increase or decrease detected in the availability column.</p>
+
+          <div class="lcg-table-wrapper" style="margin-top: 14px;">
+            <table class="lcg-table">
+              <thead>
+                <tr>
+                  <th style="width: 100px;" data-i18n="thTime">Time</th>
+                  <th style="width: 80px; text-align: center;" data-i18n="thSheetRow">Sheet Row</th>
+                  <th style="width: 130px;" data-i18n="thCategory">Category</th>
+                  <th data-i18n="thBuild">Build</th>
+                  <th style="width: 85px; text-align: center;" data-i18n="thBefore">Before</th>
+                  <th style="width: 85px; text-align: center;" data-i18n="thNew">New</th>
+                  <th style="width: 110px; text-align: center;" data-i18n="thDiff">Diff</th>
+                </tr>
+              </thead>
+              <tbody id="changesTableBody">
+                <tr>
+                  <td colspan="7" class="lcg-empty-row" data-i18n="noHistory">
+                    No changes recorded yet since monitor started. Future updates will appear here automatically.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Popup -->
+  <div id="wikiToast" class="lcg-toast" style="display: none;"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
