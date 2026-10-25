@@ -50,6 +50,25 @@ let lastError = null;
 let changeLog = []; // historial de cambios recientes
 const sseClients = new Set(); // conexiones Server-Sent Events
 
+// Cargar catálogo pre-generado si existe (para arranque instantáneo en Vercel Serverless)
+try {
+  const staticCatPath = path.join(__dirname, 'accounts_catalog.json');
+  if (fs.existsSync(staticCatPath)) {
+    const cached = JSON.parse(fs.readFileSync(staticCatPath, 'utf-8'));
+    if (Array.isArray(cached) && cached.length > 0) {
+      currentCatalog = cached;
+      for (const a of cached) {
+        if (a.row) availabilityMapByRow[a.row] = a.available || 0;
+        if (a.id) availabilityMapById[a.id] = a.available || 0;
+      }
+      lastSyncSuccess = true;
+      lastSyncTime = new Date().toISOString();
+    }
+  }
+} catch {
+  // Inicialización diferida se encargará si falla
+}
+
 /**
  * Obtener y parsear los datos en vivo de Google Sheets mediante la API de visualización
  */
@@ -338,6 +357,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Middleware para inicialización diferida (esencial para Vercel Serverless)
+app.use(async (req, res, next) => {
+  if (currentCatalog.length === 0 || !lastSyncSuccess) {
+    try {
+      await processSync();
+    } catch (e) {
+      console.error('Lazy sync error:', e.message);
+    }
+  }
+  next();
+});
 
 // ==========================================
 // ENDPOINTS DE LA API (REST & SSE)
@@ -638,17 +669,6 @@ function resetPollingTimer() {
   console.log(`[Timer] Sondeo automático configurado cada ${config.pollIntervalSeconds} segundos.`);
 }
 
-// Middleware para inicialización diferida (esencial para Vercel Serverless)
-app.use(async (req, res, next) => {
-  if (currentCatalog.length === 0) {
-    try {
-      await processSync();
-    } catch (e) {
-      console.error('Lazy sync error:', e.message);
-    }
-  }
-  next();
-});
 
 // Inicialización del servidor
 const PORT = process.env.PORT || 3000;
