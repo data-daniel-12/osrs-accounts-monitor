@@ -1,54 +1,55 @@
-# 🍀 LuckyCharm Accounts • OSRS Live Availability Monitor
+# 🍀 LuckyCharm Accounts • OSRS Live Stock & Availability Platform
 
-[![Live Demo](https://img.shields.io/badge/Demo-Vercel%20Production-success?style=for-the-badge&logo=vercel)](https://osrs-accounts-monitor.vercel.app)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-blue?style=for-the-badge&logo=node.js)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/Express-5.x-black?style=for-the-badge&logo=express)](https://expressjs.com)
-[![Status](https://img.shields.io/badge/OSRS_Sync-Active-gold?style=for-the-badge)](https://osrs-accounts-monitor.vercel.app/api/status)
-
-A modern, high-performance real-time monitor, webhook engine, and public REST API for **Old School RuneScape (OSRS)** account availability. Styled with the official design aesthetics of [LuckyCharmGold](https://luckycharmgold.com/).
+**Official Website:** [https://osrs-accounts-monitor.vercel.app](https://osrs-accounts-monitor.vercel.app)  
+**Reference Store Aesthetic:** Inspired by [LuckyCharmGold](https://luckycharmgold.com/)
 
 ---
 
-## 🌐 Live Production Demo
+## 📖 What is LuckyCharm Accounts?
 
-* **Web Dashboard:** [https://osrs-accounts-monitor.vercel.app](https://osrs-accounts-monitor.vercel.app)
-* **Live In-Stock API:** [https://osrs-accounts-monitor.vercel.app/api/availability?format=simple&only_in_stock=true](https://osrs-accounts-monitor.vercel.app/api/availability?format=simple&only_in_stock=true)
-* **Monitor Health & Status:** [https://osrs-accounts-monitor.vercel.app/api/status](https://osrs-accounts-monitor.vercel.app/api/status)
+**LuckyCharm Accounts** is a dedicated real-time inventory directory and stock monitoring platform for **Old School RuneScape (OSRS)** accounts.
 
----
+In the OSRS account trading and boosting industry, suppliers continuously update stock quantities inside private spreadsheets. For buyers, resellers, and brokers, asking *"Is this pure still available?"* or *"Do you have any 60 Attack Piety accounts in stock?"* causes friction and delayed sales.
 
-## ⚡ The Challenge & How It Works
-
-When coordinating account sales, boosting, and leveling services, account builds (combat stats, quests like Barrows Gloves, untradeables) and pricing remain largely static, while supplier **Available** inventory changes dynamically.
-
-Suppliers often share stock as a read-only Google Spreadsheet:
-> `https://docs.google.com/spreadsheets/d/1LLjq5dvk6-jGYYjodozsk7x1BFPhHKje9jNGM68GpQM/edit#gid=0`
-
-### Zero-Credentials Google Sheets Live Sync
-Because external viewers have read-only access without edit rights to install Google Apps Scripts, this service queries the **Google Visualization API (`/gviz/tq`)**:
-```text
-https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:json&sheet={SHEET_NAME}
-```
-This endpoint extracts structured JSON directly from the live spreadsheet without requiring API keys, Google Cloud console projects, or credentials.
+This platform bridges that gap by transforming supplier spreadsheets into a live, interactive, customer-facing storefront where players and brokers can instantly view verified stock, filter by combat builds, and place instant orders.
 
 ---
 
-## ✨ Features & Architecture
+## 🎯 Who is this Website For?
 
-### 🎨 1. LuckyCharmGold Design System
-- **Typography:** Google Fonts [`Freeman`](https://fonts.google.com/specimen/Freeman) for bold gaming headings and [`Epilogue`](https://fonts.google.com/specimen/Epilogue) for clean body typography.
-- **Color Palette:** Deep obsidian background (`#0B0B0B` / `#141414`), Lucky Charm clover green (`#00C853`), and golden gradient pill buttons (`#FFCF4A` ➔ `#FFBB01`).
-- **Brand Identity:** Integrated official [logo.webp](./public/logo.webp) in the responsive navigation bar.
+* **OSRS Players & Buyers:** Gamers looking to skip the hundreds of hours required for questing and skill training to immediately jump into PvP, High-Tier PvM (Raids, Zulrah, Vorkath), or Ironman challenges.
+* **Account Resellers & Brokers:** Middlemen and store owners who need an up-to-the-second verified catalog to quote prices and close sales in real time.
+* **Gaming Communities & Clan Leaders:** Discord communities running automated alerts when fresh combat builds or restocks drop.
 
-### 🌐 2. Dual-Language Support (i18n)
-- **Default Language:** English (`🇺🇸 EN`).
-- **Interactive Selector:** Dropdown `<select>` with custom country flags allowing seamless switching between English and Spanish (`🇪🇸 ES`).
-- **Full Coverage:** Metric titles, table headers, filter placeholders, badges, modal notices, and empty states update dynamically on change.
+---
 
-### ⚡ 3. Real-Time Account Filtering & Rapid Order Copying
-- **Search Engine:** Filter by build characteristics (`99 strength`, `94 magic`, `barrows gloves`, `fire cape`, `piety`, `zulrah`, `HCIM`), specific Google Sheet row numbers, or category.
-- **Stock Toggle:** One-click toggle between "In Stock Only" and "All Cataloged Accounts".
-- **One-Click Order Copying:** Generates pre-formatted inquiry text with row reference, category, and price for instant pasting into Discord or WhatsApp trade channels:
+## 🌟 Core Website Features & Functions
+
+### 1. ⚡ Live Stock Tracking (Zero Lag)
+* **Real-time Quantity Display:** Every account card and table row displays the exact number of units currently available for immediate delivery (e.g. `🔥 8 in stock`).
+* **Sold Out Badges:** Out-of-stock builds are automatically marked with red `Sold Out` badges so buyers never attempt to purchase unavailable accounts.
+* **Instant Refresh:** Users can click the sync button (`🔄`) in the header at any time to verify live quantities directly against the supplier source.
+
+### 2. 🛡️ Categorized Account Directory
+The platform categorizes accounts into the exact combat and game modes recognized across the OSRS community:
+
+* **⚔️ Pures (1 Defence PvP):** Hand-trained PK accounts (50, 60, or 75 Attack with 99 Strength, 99 Ranged, 94 Magic, Mithril Gloves, and Desert Treasure completed).
+* **🛡️ Zerkers (45 Defence):** Iconic hybrid builds with Barrows Gloves, Fighter Torso, Rune Defender, and Lunar Diplomacy (Vengeance unlocked).
+* **⚡ Piety Accounts (Med-Levels):** 60/70/75 Attack with 70+ Prayer, King's Ransom quest completed, and Piety prayer unlocked for PvP and deep Wilderness hunting.
+* **🐉 Zulrah / PvM Ready:** Optimized moneymaking accounts with 85+ Magic/Ranged, Regicide completed, and supply packages.
+* **👑 Mains & High-Level:** Maxed combat or high total-level accounts ready for Chambers of Xeric (CoX), Theatre of Blood (ToB), and Tombs of Amascut (ToA).
+* **💀 Hardcore Ironman & Regular Ironman:** Self-sufficient accounts with prestige status, untradeable items, and strict game integrity.
+* **⛏️ Skillers:** Level 3 combat accounts with 99s in gathering and production skills (Mining, Fishing, Woodcutting, Hunter).
+
+### 3. 🔍 Smart Search & Build Filtering
+* **Keyword & Stat Search:** Search freely by specific stats (`99 strength`, `94 mage`, `50 attack`), quest milestones (`barrows gloves`, `fire cape`, `dt done`), game mode (`hcim`, `pure`, `zerker`), or row number.
+* **Stock Filter:** Switch between viewing **In Stock Only** accounts (ready for immediate delivery) or **All Accounts** to see standard builds that restock regularly.
+* **Category Tabs:** Filter instantly by archetype with a single click.
+
+### 4. 📋 One-Click Order Copying (Direct to Discord / WhatsApp)
+To make buying frictionless:
+* Each account has an orange/gold **"Order"** button.
+* Clicking it instantly generates and copies a clean, professional purchase request directly to your clipboard:
   ```text
   🍀 [LuckyCharm Order Request]
   Account: 60 Attack Piety Pure
@@ -57,186 +58,52 @@ This endpoint extracts structured JSON directly from the live spreadsheet withou
   Sheet Row: #24
   Link: https://osrs-accounts-monitor.vercel.app
   ```
+* Buyers can paste this directly into Discord customer tickets, WhatsApp, or live support chats for immediate fulfillment.
 
-### 🔔 4. Automated Discord Webhook Engine
-- Configurable Webhook URL with test dispatch button.
-- Rich Discord Embeds with color-coded status badges:
-  - 🟢 **New Stock:** Account was at `0` and now has stock.
-  - 📈 **Stock Increased:** Supplier added additional accounts.
-  - 🔴 **Sold Out:** All units for that build were claimed.
-  - 📉 **Stock Decreased:** Units purchased.
+### 5. 🌐 Bilingual Support (English & Spanish)
+* Global audiences can browse seamlessly. The header includes a flag dropdown selector:
+  * 🇺🇸 **English** *(Default)*
+  * 🇪🇸 **Spanish**
+* Changes language on the fly across all interface metrics, card details, labels, search placeholders, and notifications.
 
-### 🔌 5. Developer & Integrations Hub (Bottom Section)
-Keeps the main navigation uncluttered while offering a dedicated bottom hub containing:
-- Discord Webhook configuration and live dispatch test.
-- Interactive API endpoint documentation and curl examples.
-- Audit trail displaying the last 150 inventory changes with timestamps, row numbers, and delta quantities.
+### 6. 🔔 Automated Discord Webhook Notifications
+Store owners and community administrators can configure Discord notifications directly from the web interface:
+* **Custom Webhook URL:** Connect any Discord text channel.
+* **Instant Event Triggers:**
+  * 🟢 **New Stock Available:** Alerts when a new account type is added or restocked from zero.
+  * 📈 **Stock Increase:** Alerts when inventory increases.
+  * 🔴 **Sold Out Alert:** Alerts when all accounts for a specific build have been claimed.
+* **Test Dispatch:** Test your webhook connection with one click from the dashboard.
+
+### 7. 📜 Stock Change History (Live Audit Log)
+* Located in the bottom section of the page, the **Change History** tab logs every single stock movement in real time.
+* Displays the exact time, Google Sheet row, build name, previous quantity, new quantity, and difference (+/-).
+
+### 8. 🔌 Bot & Marketplace Integrations (API)
+For developers, Discord bot creators, or external marketplaces:
+* Clean API endpoints allow bots to query:
+  * In-stock account lists.
+  * Exact spreadsheet row references and quantities.
+  * Full catalog details with prices and build specifications.
 
 ---
 
-## 🛠️ Tech Stack & Deployment
+## 🖥️ How to Use the Platform
 
-| Layer | Technology |
+1. **Browse Accounts:** Visit the [live website](https://osrs-accounts-monitor.vercel.app).
+2. **Find Your Desired Build:** Use the search bar to type stats like `99 str` or click categories like `Pures` or `Zerkers`.
+3. **Check Live Availability:** Verify the green stock count on the account card.
+4. **Copy Your Order:** Click the **"Order"** button to copy the pre-formatted request.
+5. **Paste & Buy:** Send the copied message to your supplier, Discord broker, or ticket channel to finalize payment and receive your credentials.
+
+---
+
+## 📈 Summary of Benefits
+
+| Benefit | How LuckyCharm Accounts Delivers |
 |---|---|
-| **Frontend** | Semantic HTML5, Vanilla Modern CSS, ES6+ JavaScript |
-| **Backend** | Node.js (v18+), Express 5, CORS |
-| **Data Ingestion** | Google Visualization API (`/gviz/tq`) |
-| **Serverless Deployment** | Vercel Serverless Functions (`api/index.js` + `vercel.json`) |
-| **Caching** | Pre-seeded static catalog (`accounts_catalog.json`) for sub-50ms cold starts |
-
----
-
-## 🚀 Getting Started (Local Development)
-
-### Prerequisites
-* [Node.js](https://nodejs.org/) v18.0.0 or higher
-* npm (bundled with Node.js)
-
-### Installation
-```bash
-# 1. Clone the repository
-git clone https://github.com/data-daniel-12/osrs-accounts-monitor.git
-cd osrs-accounts-monitor
-
-# 2. Install dependencies
-npm install
-
-# 3. Start the local server
-npm start
-```
-
-Open your browser at:  
-👉 **`http://localhost:3000`**
-
----
-
-## ☁️ Deploying to Vercel
-
-The repository includes a ready-to-deploy [`vercel.json`](./vercel.json) configuration:
-
-```json
-{
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" }
-  ]
-}
-```
-
-### Automatic Deployment
-```bash
-# Login to Vercel
-npx vercel login
-
-# Deploy directly to production
-npx vercel --prod --yes
-```
-
----
-
-## 📡 REST API Reference
-
-All endpoints return standard JSON and support CORS for cross-origin integration.
-
-### 1. Simple Availability Map (Lightweight)
-Query only the in-stock account rows for bots and fast synchronization:
-```http
-GET /api/availability?format=simple&only_in_stock=true
-```
-**Response:**
-```json
-{
-  "7": 1,
-  "8": 8,
-  "9": 10,
-  "10": 11,
-  "11": 15,
-  "18": 6,
-  "23": 1,
-  "24": 7
-}
-```
-*(Keys correspond to the exact row numbers in the supplier's Google Sheet).*
-
-### 2. Array of Tuples
-```http
-GET /api/availability?format=pairs&only_in_stock=true
-```
-**Response:**
-```json
-[[7, 1], [8, 8], [9, 10], [10, 11], [11, 15], [18, 6]]
-```
-
-### 3. Full Accounts Catalog
-Retrieve full account details (build stats, supplies, category, price) merged with live stock:
-```http
-GET /api/accounts?only_available=true
-```
-**Response:**
-```json
-{
-  "total": 61,
-  "lastSyncTime": "2026-10-25T21:25:43.034Z",
-  "accounts": [
-    {
-      "row": 8,
-      "id": 2,
-      "category": "Pures",
-      "available": 8,
-      "price": 60,
-      "priceFormatted": "$60",
-      "supplies": "50m",
-      "build": "50 attack 99 str 99 range 94 mage 43-44 prayer 75-80 hp - Mith gloves - dt done"
-    }
-  ]
-}
-```
-
-### 4. Monitor Status & Health
-```http
-GET /api/status
-```
-**Response:**
-```json
-{
-  "online": true,
-  "lastSyncTime": "2026-10-25T21:25:43.034Z",
-  "lastSyncSuccess": true,
-  "lastError": null,
-  "pollIntervalSeconds": 15,
-  "totalAccounts": 116,
-  "inStockAccounts": 61,
-  "hasDiscordWebhook": false
-}
-```
-
-### 5. Server-Sent Events (SSE Stream)
-```http
-GET /api/stream
-```
-Connect via SSE to receive real-time push events whenever stock levels change without polling.
-
----
-
-## 📂 Project Structure
-
-```text
-├── api/
-│   └── index.js             # Vercel serverless function entrypoint
-├── public/
-│   ├── index.html           # LuckyCharmGold themed web dashboard
-│   ├── style.css            # Custom CSS (Freeman, Epilogue, gold theme)
-│   ├── app.js               # Frontend controller (i18n, search, copy order)
-│   └── logo.webp            # LuckyCharmGold brand logo asset
-├── accounts_catalog.json    # Cached static catalog for instant cold starts
-├── config.json              # Local configuration (interval, webhook URLs)
-├── monitor.py               # Standalone Python monitor alternative
-├── server.js                # Express backend, poller engine, & webhook handler
-├── vercel.json              # Vercel routing and serverless rewrites
-├── .gitignore               # Ignored files (node_modules, .vercel, logs)
-└── package.json             # Node dependencies and project scripts
-```
-
----
-
-## 📄 License
-This project is open-source and available under the [ISC License](./package.json).
+| **No Outdated Quotes** | Live sync guarantees inventory numbers reflect the supplier's actual spreadsheet. |
+| **Faster Transactions** | One-click formatted order messages eliminate back-and-forth messaging. |
+| **Community Engagement** | Automated Discord alerts keep buyers informed the moment high-demand builds restock. |
+| **Global Accessibility** | Full English and Spanish localization allows international customers to shop with confidence. |
+| **Trust & Clarity** | Clear pricing, detailed quest progression, and exact combat stats shown upfront. |
